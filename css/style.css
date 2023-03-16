@@ -2,3 +2,17 @@ canvas {
   display: block;
   margin: 0 auto;
 }
+
+.btn-reboot {
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+  margin-top: 10px;
+  background-color: #3ae846;
+  width: 200px;
+}
+
+.btn-reboot:hover {
+  background-color: #e83a6b;
+  width: 300px;
+}

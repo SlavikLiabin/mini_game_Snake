@@ -10,6 +10,11 @@ foodImg.src = "../img/food.png";
 let box = 32;
 
 let score = 0;
+let maxscore = 0;
+
+if (+localStorage.getItem("fromLocal") > 0) {
+  maxscore = +localStorage.getItem("fromLocal");
+}
 
 let food = {
   x: Math.floor(Math.random() * 10 + 1) * box,
@@ -48,10 +53,18 @@ function drawGame() {
     ctx.fillStyle = i == 0 ? "green" : "red";
     ctx.fillRect(snake[i].x, snake[i].y, box, box);
   }
-
+  //рисуем количество очков в текущей игре
   ctx.fillStyle = "white";
-  ctx.font = "50px Arial";
-  ctx.fillText(score, box * 2.5, box * 1.7);
+  ctx.font = "25px Arial";
+  ctx.fillText(`Current value: ${score}`, box * 2.5, box * 1);
+  ctx.fillText(`Record: ${maxscore}`, box * 2.5, box * 2);
+
+  //делаем кнопку перезагрузки
+  const btnNode = document.querySelector(".btn-reboot");
+  btnNode.addEventListener("click", () => {
+    location.reload();
+    return true;
+  });
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
@@ -60,7 +73,7 @@ function drawGame() {
     score++;
     food = {
       x: Math.floor(Math.random() * 10 + 1) * box,
-      y: Math.floor(Math.random() * 9 + 1) * box,
+      y: Math.floor(Math.random() * 10 + 3) * box,
     };
   } else {
     snake.pop();
@@ -73,6 +86,13 @@ function drawGame() {
     snakeY > box * 12
   )
     clearInterval(game);
+
+  const fromLocal = localStorage.getItem("fromLocal");
+  // console.log(fromLocal);
+
+  if (+fromLocal < score) {
+    localStorage.setItem("fromLocal", score.toString());
+  }
 
   if (dir == "left") snakeX -= box;
   if (dir == "right") snakeX += box;
